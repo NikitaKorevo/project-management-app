@@ -11,7 +11,6 @@ const App: React.FC = () => {
       <main className={styles.main}>
         <AppRouter />
       </main>
-
       <Footer />
     </div>
   );
