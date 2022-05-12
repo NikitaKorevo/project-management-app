@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './signUpPage.module.css';
 import { FormikErrors, useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 
 interface FormInputs {
   name: string;
@@ -32,6 +33,8 @@ const validate = (values: FormInputs) => {
 };
 
 const SignUpPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -40,7 +43,18 @@ const SignUpPage: React.FC = () => {
     },
     validate,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      try {
+        fetch('http://localhost:4000/signup', {
+          body: JSON.stringify(values),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        }).then(navigate('/'));
+      } catch (err) {
+        console.log(err);
+      }
     },
   });
 
