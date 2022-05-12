@@ -62,7 +62,7 @@ const SignUpPage: React.FC = () => {
   return (
     <div className={styles.signUpPage}>
       <p>SignUpPage</p>
-      <form className="sign-up-form" onSubmit={formik.handleSubmit}>
+      <form className={styles.signUpForm} onSubmit={formik.handleSubmit}>
         <label htmlFor="name">
           Enter your name:
           <input
