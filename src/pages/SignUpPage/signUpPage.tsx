@@ -51,7 +51,8 @@ const SignUpPage: React.FC = () => {
             'Content-Type': 'application/json',
           },
           method: 'POST',
-        }).then(navigate('/'));
+        });
+        navigate('/');
       } catch (err) {
         console.log(err);
       }
