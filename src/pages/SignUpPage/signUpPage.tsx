@@ -44,7 +44,7 @@ const SignUpPage: React.FC = () => {
     validate,
     onSubmit: (values) => {
       try {
-        fetch('http://localhost:4000/signup', {
+        fetch('https://powerful-tundra-11100.herokuapp.com/signup', {
           body: JSON.stringify(values),
           headers: {
             Accept: 'application/json',
