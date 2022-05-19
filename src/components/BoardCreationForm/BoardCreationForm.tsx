@@ -45,17 +45,17 @@ const BoardCreationForm: React.FC<IBoardCreationFormProps> = ({
     >
       <DialogTitle id="alert-dialog-title">{'Create board'}</DialogTitle>
       <DialogContent>
-        <Box m={1}>
+        <Box m={1} sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
           <TextField
             id="outlined-basic"
-            label="name"
+            label="Title"
             variant="outlined"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <TextField
             id="outlined-basic"
-            label="description"
+            label="Description"
             variant="outlined"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
