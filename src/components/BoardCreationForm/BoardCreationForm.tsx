@@ -1,12 +1,14 @@
+import React, { useState } from 'react';
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
+  TextField,
 } from '@mui/material';
-import React from 'react';
+import { boardAPI } from '../../services/boardAPI';
 
 interface IBoardCreationFormProps {
   isBoardCreationFormOpen: boolean;
@@ -17,6 +19,10 @@ const BoardCreationForm: React.FC<IBoardCreationFormProps> = ({
   isBoardCreationFormOpen,
   setIsBoardCreationFormOpen,
 }) => {
+  const [createBoard, {}] = boardAPI.useCreateBoardMutation();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+
   const handleCloseModal = () => {
     setIsBoardCreationFormOpen(false);
   };
@@ -26,6 +32,7 @@ const BoardCreationForm: React.FC<IBoardCreationFormProps> = ({
   };
 
   const handleClickAgreeButton = () => {
+    createBoard({ title, description });
     setIsBoardCreationFormOpen(false);
   };
 
@@ -36,18 +43,28 @@ const BoardCreationForm: React.FC<IBoardCreationFormProps> = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{'Create board'}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          Let Google help apps determine location. This means sending anonymous location data to
-          Google, even when no apps are running.
-        </DialogContentText>
+        <Box m={1}>
+          <TextField
+            id="outlined-basic"
+            label="name"
+            variant="outlined"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <TextField
+            id="outlined-basic"
+            label="description"
+            variant="outlined"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClickDisagreeButton}>Disagree</Button>
-        <Button onClick={handleClickAgreeButton} autoFocus>
-          Agree
-        </Button>
+        <Button onClick={handleClickAgreeButton}>Agree</Button>
       </DialogActions>
     </Dialog>
   );

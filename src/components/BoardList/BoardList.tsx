@@ -1,26 +1,18 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  CircularProgress,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Divider, LinearProgress, List, ListItem, ListItemText, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { boardAPI } from '../../services/boardAPI';
-import { IAllBoards } from '../../types/interfaces';
+import { IBoard } from '../../types/IBoard';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import Spinner from '../Spinner/Spinner';
 
 const BoardList: React.FC = () => {
-  const { data, error, isLoading, isFetching } = boardAPI.useGetAllBoardsQuery();
-  const [createBoard, {}] = boardAPI.useCreateBoardMutation();
+  const { data, isLoading, isFetching, isError } = boardAPI.useGetAllBoardsQuery();
   const [deleteBoard, {}] = boardAPI.useDeleteBoardMutation();
+
   const navigate = useNavigate();
+
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [idSelectedBoard, setIdSelectedBoard] = useState('');
 
@@ -33,14 +25,15 @@ const BoardList: React.FC = () => {
     setIsConfirmationModalOpen(true);
   };
 
-  const deleteSelectedBoard = () => {
+  const deleteSelectedBoard = (): void => {
     deleteBoard(idSelectedBoard);
   };
 
-  const allBoardsElement = data?.map((board: IAllBoards, index) => {
+  const allBoardsElement = data?.map((board: IBoard, index) => {
     const { id, title, description } = board;
+
     return (
-      <div key={id}>
+      <React.Fragment key={id}>
         {index !== 0 && <Divider variant="middle" />}
         <ListItem>
           <ListItemText
@@ -51,50 +44,34 @@ const BoardList: React.FC = () => {
           />
           <DeleteIcon sx={{ cursor: 'pointer' }} onClick={() => handleClickDeleteIcon(id)} />
         </ListItem>
-      </div>
+      </React.Fragment>
     );
   });
 
-  if (isFetching) {
-    return (
-      <div>
-        <Stack alignItems="center" mt={2} mb={2}>
-          <CircularProgress />
-        </Stack>
-      </div>
-    );
+  if (isLoading) {
+    return <Spinner />;
   }
 
   return (
     <div>
-      {error && <Typography>An error has occurred!</Typography>}
+      {isError && <Typography>An error has occurred!</Typography>}
       <ConfirmationModal
         isConfirmationModalOpen={isConfirmationModalOpen}
         setIsConfirmationModalOpen={setIsConfirmationModalOpen}
         deleteItem={deleteSelectedBoard}
       />
-      <Box>
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-      </Box>
-
       <List
         sx={{
           width: '100%',
-          maxWidth: 500,
+          maxWidth: '500px',
           bgcolor: 'background.paper',
           borderRadius: 2,
-          margin: 2,
+          marginBottom: 2,
         }}
       >
         {allBoardsElement}
+        {isFetching && <LinearProgress />}
       </List>
-
-      <button
-        onClick={() => createBoard({ title: 'something', description: 'this is description' })}
-      >
-        post boards
-      </button>
     </div>
   );
 };

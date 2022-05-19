@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_URL_API } from '../constants/appConstants';
 import { RootStateType } from '../store/store';
-import { IAllBoards, ICreateBoardDto, IUpdateBoardDto } from '../types/interfaces';
+import { IBoard, ICreateBoardDto } from '../types/IBoard';
 
 export const boardAPI = createApi({
   reducerPath: 'boardAPI',
@@ -12,37 +12,50 @@ export const boardAPI = createApi({
       const state = api.getState() as RootStateType;
       headers.set('Accept', 'application/json');
       headers.set('Authorization', `Bearer ${state.basis.token}`);
-      /* headers.set('Content-Type', 'application/json'); */
       return headers;
     },
   }),
 
+  tagTypes: ['Board'],
+
   endpoints: (builder) => ({
-    getAllBoards: builder.query<Array<IAllBoards>, void>({
+    getAllBoards: builder.query<Array<IBoard>, void>({
       query: () => '/boards',
+      providesTags: ['Board'],
     }),
 
-    createBoard: builder.mutation<IAllBoards, ICreateBoardDto>({
+    createBoard: builder.mutation<IBoard, ICreateBoardDto>({
       query: (board) => ({
         url: '/boards',
         method: 'POST',
         body: board,
       }),
+      invalidatesTags: ['Board'],
     }),
 
-    getBoard: builder.query<object, string>({
+    getBoard: builder.query<IBoard, string>({
       query: (boardId) => `/boards/${boardId}`,
+      providesTags: ['Board'],
     }),
 
-    deleteBoard: builder.mutation({
+    deleteBoard: builder.mutation<void, string>({
       query: (boardId) => ({
         url: `/boards/${boardId}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Board'],
     }),
 
-    /* updateBoard: builder.query<>({
-
-    }) */
+    updateBoard: builder.mutation<IBoard, IBoard>({
+      query: (board) => ({
+        url: `/boards/${board.id}`,
+        method: 'PUT',
+        body: {
+          title: board.title,
+          description: board.description,
+        },
+      }),
+      invalidatesTags: ['Board'],
+    }),
   }),
 });

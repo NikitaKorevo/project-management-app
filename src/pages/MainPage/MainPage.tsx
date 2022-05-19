@@ -7,7 +7,7 @@ import BoardCreationForm from '../../components/BoardCreationForm/BoardCreationF
 const MainPage: React.FC = () => {
   const [isBoardCreationFormOpen, setIsBoardCreationFormOpen] = useState(false);
 
-  const openModal = () => {
+  const openModal = (): void => {
     setIsBoardCreationFormOpen(true);
   };
 
@@ -19,12 +19,12 @@ const MainPage: React.FC = () => {
           setIsBoardCreationFormOpen={setIsBoardCreationFormOpen}
         />
       )}
-      <Typography variant="h5" component="h1" m={2}>
+      <Typography variant="h5" component="h1" mt={2} mb={2}>
         Boards
       </Typography>
       <BoardList />
-      <Button variant="outlined" onClick={openModal}>
-        add board
+      <Button sx={{ marginBottom: 2 }} variant="outlined" onClick={openModal}>
+        create board
       </Button>
     </div>
   );
