@@ -1,0 +1,32 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
+import { BASE_URL_API } from '../constants/appConstants';
+import { RootStateType } from '../store/store';
+import { ITask } from '../types/ITask';
+
+export interface IGetAllTasksQueryArgument {
+  boardId: string;
+  columnId: string;
+}
+
+export const taskAPI = createApi({
+  reducerPath: 'taskAPI',
+
+  baseQuery: fetchBaseQuery({
+    baseUrl: BASE_URL_API,
+    prepareHeaders: (headers, api) => {
+      const state = api.getState() as RootStateType;
+      headers.set('Accept', 'application/json');
+      headers.set('Authorization', `Bearer ${state.basis.token}`);
+      return headers;
+    },
+  }),
+
+  tagTypes: ['Task'],
+
+  endpoints: (builder) => ({
+    getAllTasks: builder.query<Array<ITask>, IGetAllTasksQueryArgument>({
+      query: ({ boardId, columnId }) => `/boards/${boardId}/columns/${columnId}/tasks`,
+      providesTags: ['Task'],
+    }),
+  }),
+});

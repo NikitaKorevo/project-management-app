@@ -1,7 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_URL_API } from '../constants/appConstants';
 import { RootStateType } from '../store/store';
-import { IBoard, ICreateBoardDto } from '../types/IBoard';
+import { IBoard, ICreateBoardDto, IUpdateBoardDto } from '../types/IBoard';
+
+export interface IUpdateBoardQueryArgument extends IUpdateBoardDto {
+  boardId: string;
+}
 
 export const boardAPI = createApi({
   reducerPath: 'boardAPI',
@@ -46,13 +50,13 @@ export const boardAPI = createApi({
       invalidatesTags: ['Board'],
     }),
 
-    updateBoard: builder.mutation<IBoard, IBoard>({
-      query: (board) => ({
-        url: `/boards/${board.id}`,
+    updateBoard: builder.mutation<IBoard, IUpdateBoardQueryArgument>({
+      query: ({ boardId, title, description }) => ({
+        url: `/boards/${boardId}`,
         method: 'PUT',
         body: {
-          title: board.title,
-          description: board.description,
+          title,
+          description,
         },
       }),
       invalidatesTags: ['Board'],
