@@ -3,7 +3,7 @@ import { BASE_URL_API } from '../constants/appConstants';
 import { RootStateType } from '../store/store';
 import { IBoard, ICreateBoardDto, IUpdateBoardDto } from '../types/IBoard';
 
-export interface IUpdateBoardQueryArgument extends IUpdateBoardDto {
+interface IUpdateBoardQueryArgument extends IUpdateBoardDto {
   boardId: string;
 }
 

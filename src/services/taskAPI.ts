@@ -1,9 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { BASE_URL_API } from '../constants/appConstants';
 import { RootStateType } from '../store/store';
-import { ITask } from '../types/ITask';
+import { ICreateTaskDto, ITask } from '../types/ITask';
 
-export interface IGetAllTasksQueryArgument {
+interface IGetAllTasksQueryArgument {
+  boardId: string;
+  columnId: string;
+}
+
+interface ICreateTaskQueryArgument extends ICreateTaskDto {
   boardId: string;
   columnId: string;
 }
@@ -27,6 +32,15 @@ export const taskAPI = createApi({
     getAllTasks: builder.query<Array<ITask>, IGetAllTasksQueryArgument>({
       query: ({ boardId, columnId }) => `/boards/${boardId}/columns/${columnId}/tasks`,
       providesTags: ['Task'],
+    }),
+
+    createTask: builder.mutation<ITask, ICreateTaskQueryArgument>({
+      query: ({ boardId, columnId, title, description, userId }) => ({
+        url: `/boards/${boardId}/columns/${columnId}/tasks`,
+        method: 'POST',
+        body: { title, description, userId },
+      }),
+      invalidatesTags: ['Task'],
     }),
   }),
 });

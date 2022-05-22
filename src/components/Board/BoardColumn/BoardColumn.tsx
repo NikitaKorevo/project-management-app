@@ -1,7 +1,8 @@
-import { FC, useEffect } from 'react';
+import { FC, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import BoardTask from '../BoardTask/BoardTask';
 import { taskAPI } from '../../../services/taskAPI';
+import BoardTaskCreationForm from '../BoardTaskCreationForm/BoardTaskCreationForm';
 
 interface IBoardColumnProps {
   boardId: string;
@@ -17,6 +18,11 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
     isFetching,
     isError,
   } = taskAPI.useGetAllTasksQuery({ boardId, columnId });
+  const [isBoardTaskCreationFormOpen, setIsBoardTaskCreationFormOpen] = useState(false);
+
+  const handleClickButton = () => {
+    setIsBoardTaskCreationFormOpen(true);
+  };
 
   const allTasksElement = allTasks?.map((task) => {
     const { id, title } = task;
@@ -35,7 +41,17 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
       {order}
       {title}
       {allTasksElement}
-      <Button variant="outlined">add task</Button>
+      <Button variant="outlined" onClick={handleClickButton}>
+        add task
+      </Button>
+
+      {isBoardTaskCreationFormOpen && (
+        <BoardTaskCreationForm
+          isFormOpen={isBoardTaskCreationFormOpen}
+          setIsFormOpen={setIsBoardTaskCreationFormOpen}
+          columnId={columnId}
+        />
+      )}
     </Box>
   );
 };

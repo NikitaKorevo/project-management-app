@@ -3,7 +3,7 @@ import { BASE_URL_API } from '../constants/appConstants';
 import { RootStateType } from '../store/store';
 import { IColumn, ICreateColumnDto } from '../types/IColumn';
 
-export interface ICreateColumnQueryArgument extends ICreateColumnDto {
+interface ICreateColumnQueryArgument extends ICreateColumnDto {
   boardId: string;
 }
 
@@ -29,10 +29,10 @@ export const columnAPI = createApi({
     }),
 
     createColumn: builder.mutation<IColumn, ICreateColumnQueryArgument>({
-      query: ({ boardId, title, order }) => ({
+      query: ({ boardId, title }) => ({
         url: `/boards/${boardId}/columns`,
         method: 'POST',
-        body: { title, order },
+        body: { title },
       }),
       invalidatesTags: ['Column'],
     }),

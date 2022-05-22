@@ -6,7 +6,6 @@ export interface IColumn {
 
 export interface ICreateColumnDto {
   title: string;
-  order: number;
 }
 
 export interface IUpdateColumnDto {

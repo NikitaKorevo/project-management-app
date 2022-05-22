@@ -10,6 +10,10 @@ export interface ITask {
   files: [];
 }
 
-// export interface ICreateTaskDto {}
+export interface ICreateTaskDto {
+  title: string;
+  description: string;
+  userId: string;
+}
 
 // export interface IUpdateTaskDto {}
