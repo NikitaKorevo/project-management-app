@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import {
   Box,
   Button,
@@ -8,42 +8,43 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import { boardAPI } from '../../services/boardAPI';
+import { useParams } from 'react-router-dom';
+import { columnAPI } from '../../../services/columnAPI';
 
-interface IBoardCreationFormProps {
-  isBoardCreationFormOpen: boolean;
-  setIsBoardCreationFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
+interface BoardColumnCreationFormProps {
+  isFormOpen: boolean;
+  setIsFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const BoardCreationForm: React.FC<IBoardCreationFormProps> = ({
-  isBoardCreationFormOpen,
-  setIsBoardCreationFormOpen,
+const BoardColumnCreationForm: FC<BoardColumnCreationFormProps> = ({
+  isFormOpen,
+  setIsFormOpen,
 }) => {
-  const [createBoard, {}] = boardAPI.useCreateBoardMutation();
+  const { boardId = '' } = useParams();
+  const [createColumn, {}] = columnAPI.useCreateColumnMutation();
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
 
   const handleCloseModal = (): void => {
-    setIsBoardCreationFormOpen(false);
+    setIsFormOpen(false);
   };
 
   const handleClickDisagreeButton = (): void => {
-    setIsBoardCreationFormOpen(false);
+    setIsFormOpen(false);
   };
 
   const handleClickAgreeButton = (): void => {
-    createBoard({ title, description });
-    setIsBoardCreationFormOpen(false);
+    createColumn({ boardId, title });
+    setIsFormOpen(false);
   };
 
   return (
     <Dialog
-      open={isBoardCreationFormOpen}
+      open={isFormOpen}
       onClose={handleCloseModal}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{'Create board'}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{'Create column'}</DialogTitle>
 
       <DialogContent>
         <Box m={1} sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -53,13 +54,6 @@ const BoardCreationForm: React.FC<IBoardCreationFormProps> = ({
             variant="outlined"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-          />
-          <TextField
-            id="outlined-basic"
-            label="Description"
-            variant="outlined"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
           />
         </Box>
       </DialogContent>
@@ -72,4 +66,4 @@ const BoardCreationForm: React.FC<IBoardCreationFormProps> = ({
   );
 };
 
-export default BoardCreationForm;
+export default BoardColumnCreationForm;
