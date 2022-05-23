@@ -1,7 +1,27 @@
 .header {
   background-color: aliceblue;
+  box-shadow: black 1em 1em 1em;
+}
+
+.appName {
+  flex-shrink: 0;
+  margin-right: 2em !important;
+  text-transform: uppercase;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .nav a {
-  margin: 10px;
+  margin: 0 .5em;
 }
+
+.authorisationButtonGroup {
+  margin-left: auto;
+}
+
