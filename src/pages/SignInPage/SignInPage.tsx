@@ -23,6 +23,20 @@ const validate = (values: FormInputs) => {
     errors.password = 'Invalid password';
   }
 
+  try {
+    const response = fetch('https://powerful-tundra-11100.herokuapp.com/signin', {
+      body: JSON.stringify(values),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    });
+    console.log(response);
+  } catch (err) {
+    console.log(err);
+    errors.password = 'Incorrect login or password';
+  }
   return errors;
 };
 
