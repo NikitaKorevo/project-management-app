@@ -73,7 +73,7 @@
 }
 
 .teamInfoContent > div > div {
-    padding: 0.8em;
+    padding: 0.8em !important;
 }
 
 .teamInfoContent > div p {
