@@ -32,26 +32,24 @@ const Board: FC = () => {
   }
 
   return (
-    <div>
-      <Box sx={{ display: 'flex', columnGap: 1 }}>
-        {columnsElement}
+    <Box sx={{ display: 'flex', columnGap: 1, m: 2 }}>
+      {columnsElement}
 
-        <Button
-          sx={{ marginBottom: 2, alignSelf: 'start' }}
-          variant="outlined"
-          onClick={handleClickButton}
-        >
-          add column
-        </Button>
+      <Button
+        sx={{ marginBottom: 2, alignSelf: 'start' }}
+        variant="outlined"
+        onClick={handleClickButton}
+      >
+        add column
+      </Button>
 
-        {isBoardCreationFormOpen && (
-          <BoardColumnCreationForm
-            isFormOpen={isBoardCreationFormOpen}
-            setIsFormOpen={setIsBoardCreationFormOpen}
-          />
-        )}
-      </Box>
-    </div>
+      {isBoardCreationFormOpen && (
+        <BoardColumnCreationForm
+          isFormOpen={isBoardCreationFormOpen}
+          setIsFormOpen={setIsBoardCreationFormOpen}
+        />
+      )}
+    </Box>
   );
 };
 

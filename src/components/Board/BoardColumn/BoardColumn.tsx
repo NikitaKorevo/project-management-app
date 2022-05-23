@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 import BoardTask from '../BoardTask/BoardTask';
 import { taskAPI } from '../../../services/taskAPI';
 import BoardTaskCreationForm from '../BoardTaskCreationForm/BoardTaskCreationForm';
@@ -20,28 +20,35 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
   } = taskAPI.useGetAllTasksQuery({ boardId, columnId });
   const [isBoardTaskCreationFormOpen, setIsBoardTaskCreationFormOpen] = useState(false);
 
-  const handleClickButton = () => {
+  const handleClickButton = (): void => {
     setIsBoardTaskCreationFormOpen(true);
   };
 
   const allTasksElement = allTasks?.map((task) => {
-    const { id, title } = task;
+    const { id, title, description } = task;
 
-    return <BoardTask key={id} title={title} />;
+    return <BoardTask key={id} title={title} description={description} />;
   });
 
   return (
     <Box
       sx={{
-        height: '100px',
-        minWidth: '250px',
-        border: '1px solid rgba(25, 118, 210, 0.5)',
+        boxSizing: 'border-box',
+        width: '275px',
+        minWidth: '275px',
+        backgroundColor: '#fff',
+        borderRadius: 2,
       }}
     >
-      {order}
-      {title}
+      <Typography variant="h6" component="h2" p={1} align="center">
+        {title}
+        {` (${order})`}
+      </Typography>
+
+      <Divider sx={{ color: 'primary.main' }} />
       {allTasksElement}
-      <Button variant="outlined" onClick={handleClickButton}>
+
+      <Button variant="text" onClick={handleClickButton}>
         add task
       </Button>
 

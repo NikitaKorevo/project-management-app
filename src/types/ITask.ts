@@ -1,8 +1,7 @@
 export interface ITask {
   id: string;
   title: string;
-  done: false;
-  order: boolean;
+  order: number;
   description: string;
   userId: string;
   boardId: string;

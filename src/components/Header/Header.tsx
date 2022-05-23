@@ -9,7 +9,6 @@ const Header: React.FC = () => {
       <nav className={styles.nav}>
         <Link to={APP_ROUTES.WELCOME}>WELCOME</Link>
         <Link to={APP_ROUTES.MAIN}>MAIN</Link>
-        <Link to={`${APP_ROUTES.BOARD}/1`}>BOARD</Link>
         <Link to={APP_ROUTES.SIGN_IN}>SIGN_IN</Link>
         <Link to={APP_ROUTES.SIGN_UP}>SIGN_UP</Link>
         <Link to={APP_ROUTES.NOT_FOUND}>NOT_FOUND</Link>
