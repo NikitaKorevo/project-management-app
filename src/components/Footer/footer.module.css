@@ -48,3 +48,43 @@
 .avatar_3 {
   background-color: #673ab7 !important;
 }
+
+.ghRepoText {
+  display: block;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 900px) {
+  .ghRepoText {
+    display: none;
+  }
+}
+
+.yearVertical {
+  display: flex !important;
+}
+
+.yearHorizontal {
+  display: none !important;
+  align-items: flex-start;
+}
+
+@media screen and (max-width: 600px) {
+  .footer {
+    height: 12em;
+    flex-direction: column;
+    padding: 1em 0;
+  }
+
+  .ghRepositories {
+    height: auto;
+  }
+
+  .yearVertical {
+    display: none !important;
+  }
+
+  .yearHorizontal {
+    display: flex !important;
+  }
+}

@@ -1,20 +1,38 @@
 import React from 'react';
 import styles from './footer.module.css';
-import { Avatar, Chip, Divider, IconButton, Tooltip, Typography } from '@mui/material';
+import {
+  Avatar,
+  Button,
+  Chip,
+  Divider,
+  IconButton,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 
 const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.courseInfo}>
-        <a href={'https://rs.school/react/'}>
-          <img src={'rs_school_js.svg'} alt={'rsschool link'} />
-        </a>
+        <Tooltip title="Learn more">
+          <Button href={'https://rs.school/react/'} color="inherit">
+            <img src={'rs_school_js.svg'} alt={'rsschool link'} />
+          </Button>
+        </Tooltip>
       </div>
-      <Divider orientation="vertical" variant="middle" flexItem>
-        <Chip label="2022" />
+      <Divider orientation="vertical" variant="middle" flexItem className={styles.yearVertical}>
+        <Tooltip title="Creating date">
+          <Chip label="2022" />
+        </Tooltip>
+      </Divider>
+      <Divider flexItem className={styles.yearHorizontal}>
+        <Tooltip title="Creating date">
+          <Chip label="2022" />
+        </Tooltip>
       </Divider>
       <div className={styles.ghRepositories}>
-        <div>
+        <div className={styles.ghRepoText}>
           <Typography>developers repositories:</Typography>
         </div>
         <div>
