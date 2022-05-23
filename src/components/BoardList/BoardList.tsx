@@ -60,18 +60,20 @@ const BoardList: React.FC = () => {
         setIsConfirmationModalOpen={setIsConfirmationModalOpen}
         deleteItem={deleteSelectedBoard}
       />
-      <List
-        sx={{
-          width: '100%',
-          maxWidth: '500px',
-          bgcolor: 'background.paper',
-          borderRadius: 2,
-          marginBottom: 2,
-        }}
-      >
-        {allBoardsElement}
-        {isFetching && <LinearProgress />}
-      </List>
+      {allBoardsElement?.length !== 0 && (
+        <List
+          sx={{
+            width: '100%',
+            maxWidth: '500px',
+            bgcolor: 'background.paper',
+            borderRadius: 2,
+            marginBottom: 2,
+          }}
+        >
+          {allBoardsElement}
+          {isFetching && <LinearProgress />}
+        </List>
+      )}
     </div>
   );
 };
