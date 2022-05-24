@@ -22,6 +22,7 @@ const Board: FC = () => {
 
   const columnsElement = allColumns?.map((column) => {
     const { id, title, order } = column;
+
     return (
       <BoardColumn key={id} boardId={boardId} columnId={column.id} title={title} order={order} />
     );
@@ -32,7 +33,18 @@ const Board: FC = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex', columnGap: 1, m: 2 }}>
+    <Box
+      sx={{
+        position: 'absolute',
+        display: 'flex',
+        columnGap: 1,
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        m: 2,
+      }}
+    >
       {columnsElement}
 
       <Button

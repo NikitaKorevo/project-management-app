@@ -19,10 +19,13 @@ const MainPage: React.FC = () => {
           setIsBoardCreationFormOpen={setIsBoardCreationFormOpen}
         />
       )}
+
       <Typography variant="h5" component="h1" mt={2} mb={2}>
-        Boards
+        Boards:
       </Typography>
+
       <BoardList />
+
       <Button sx={{ marginBottom: 2 }} variant="outlined" onClick={openModal}>
         create board
       </Button>

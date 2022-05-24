@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Box, Button, Divider, List, Typography } from '@mui/material';
 import BoardTask from '../BoardTask/BoardTask';
 import { taskAPI } from '../../../services/taskAPI';
 import BoardTaskCreationForm from '../BoardTaskCreationForm/BoardTaskCreationForm';
@@ -33,9 +33,9 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
   return (
     <Box
       sx={{
-        boxSizing: 'border-box',
-        width: '275px',
-        minWidth: '275px',
+        display: 'flex',
+        flexDirection: 'column',
+        flexBasis: '275px',
         backgroundColor: '#fff',
         borderRadius: 2,
       }}
@@ -45,8 +45,13 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
         {` (${order})`}
       </Typography>
 
-      <Divider sx={{ color: 'primary.main' }} />
-      {allTasksElement}
+      <Divider />
+
+      <Box sx={{ position: 'relative', flexGrow: '1', overflowY: 'auto' }}>
+        <List>{allTasksElement}</List>
+      </Box>
+
+      <Divider />
 
       <Button variant="text" onClick={handleClickButton}>
         add task

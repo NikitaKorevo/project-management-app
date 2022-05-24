@@ -19,6 +19,7 @@ const BoardTask: FC<IBoardTaskProps> = ({ title, description }) => {
       <Typography variant="body1" component="h3">
         {title}
       </Typography>
+
       <Typography variant="body2">{description}</Typography>
     </Box>
   );
