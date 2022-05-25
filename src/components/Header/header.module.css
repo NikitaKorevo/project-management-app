@@ -5,7 +5,7 @@
 
 .appName {
   flex-shrink: 0;
-  margin-right: 2em !important;
+  margin-right: 2em;
   text-transform: uppercase;
 }
 
@@ -26,5 +26,5 @@
 }
 
 .drawerContent {
-  width: 250px;
+  width: 200px;
 }

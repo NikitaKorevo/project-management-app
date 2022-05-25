@@ -1,15 +1,7 @@
 import React from 'react';
 import styles from './footer.module.css';
-import {
-  Avatar,
-  Button,
-  Chip,
-  Divider,
-  IconButton,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import { Avatar, Button, Chip, Divider, IconButton, Tooltip, Typography } from '@mui/material';
+import { TEAM_INFO } from '../../constants/teamInfo';
 
 const Footer: React.FC = () => {
   return (
@@ -35,33 +27,17 @@ const Footer: React.FC = () => {
         <div className={styles.ghRepoText}>
           <Typography>developers repositories:</Typography>
         </div>
-        <div>
-          <Tooltip title="Naikita Korevo" arrow>
-            <IconButton href={'https://github.com/NikitaKorevo/'}>
-              <Avatar alt="Naikita Korevo" className={styles.avatar_1}>
-                NK
-              </Avatar>
-            </IconButton>
-          </Tooltip>
-        </div>
-        <div>
-          <Tooltip title="Alex Mz" arrow>
-            <IconButton href={'https://github.com/NikitaKorevo/'}>
-              <Avatar alt="Alex Mz" className={styles.avatar_2}>
-                AM
-              </Avatar>
-            </IconButton>
-          </Tooltip>
-        </div>
-        <div>
-          <Tooltip title="Alexey Gerasimchuk" arrow>
-            <IconButton href={'https://github.com/LehaGer'}>
-              <Avatar alt="Alexey Gerasimchuk" className={styles.avatar_3}>
-                AG
-              </Avatar>
-            </IconButton>
-          </Tooltip>
-        </div>
+        {TEAM_INFO.map((developerItem, index) => (
+          <div key={index}>
+            <Tooltip title={developerItem.name} arrow>
+              <IconButton href={developerItem.ghPage}>
+                <Avatar alt={developerItem.name} className={styles[`avatar_${index + 1}`]}>
+                  {developerItem.nameShort}
+                </Avatar>
+              </IconButton>
+            </Tooltip>
+          </div>
+        ))}
       </div>
     </footer>
   );
