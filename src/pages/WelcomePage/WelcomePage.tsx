@@ -65,31 +65,6 @@ const WelcomePage: React.FC = () => {
               </Tooltip>
             </div>
           ))}
-          {/*<Card className={styles.teamInfoContentCard}>
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                Nikita Korevo
-              </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-            </CardActions>
-          </Card>
-          <Card>
-            <CardContent>
-              <Typography>Alex Mz</Typography>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent>
-              <Typography>Alexey Gerasimchuk</Typography>
-            </CardContent>
-          </Card>*/}
         </div>
       </div>
       <Typography className={styles.taskInfo}>final task of REACT 2022Q1 course</Typography>
