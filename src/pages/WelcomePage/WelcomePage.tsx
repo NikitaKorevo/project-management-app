@@ -2,12 +2,7 @@ import React from 'react';
 import styles from './welcomePage.module.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import Typography from '@mui/material/Typography';
-import { Avatar, Card, CardActions, CardContent, IconButton, Tooltip } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { ExpandMore } from '@mui/icons-material';
+import { Avatar, IconButton, Tooltip } from '@mui/material';
 import { TEAM_INFO } from '../../constants/teamInfo';
 
 const WelcomePage: React.FC = () => {
