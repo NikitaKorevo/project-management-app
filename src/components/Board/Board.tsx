@@ -47,7 +47,12 @@ const Board: FC = () => {
       {columnsElement}
 
       <Button
-        sx={{ alignSelf: 'start', flexShrink: 0, marginBottom: 2 }}
+        sx={{
+          alignSelf: 'start',
+          flexShrink: 0,
+          order: (allColumns?.length || 0) + 1,
+          marginBottom: 2,
+        }}
         variant="outlined"
         onClick={handleClickButton}
       >

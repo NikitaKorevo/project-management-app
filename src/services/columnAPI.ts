@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { BASE_URL_API } from '../constants/appConstants';
 import { RootStateType } from '../store/store';
-import { IColumn, IColumns, ICreateColumnDto } from '../types/IColumn';
+import { IColumn, IColumns, ICreateColumnDto, IUpdateColumnDto } from '../types/IColumn';
 
 interface ICreateColumnQueryArgument extends ICreateColumnDto {
   boardId: string;
@@ -13,6 +13,11 @@ interface IGetColumnQueryArgument {
 }
 
 interface IDeleteColumnQueryArgument {
+  boardId: string;
+  columnId: string;
+}
+
+interface IUpdateColumnQueryArgument extends IUpdateColumnDto {
   boardId: string;
   columnId: string;
 }
@@ -56,6 +61,15 @@ export const columnAPI = createApi({
       query: ({ boardId, columnId }) => ({
         url: `/boards/${boardId}/columns/${columnId}`,
         method: 'DELETE',
+      }),
+      invalidatesTags: ['Column'],
+    }),
+
+    updateColumn: builder.mutation<IColumns, IUpdateColumnQueryArgument>({
+      query: ({ boardId, columnId, title, order }) => ({
+        url: `/boards/${boardId}/columns/${columnId}`,
+        method: 'PUT',
+        body: { title, order },
       }),
       invalidatesTags: ['Column'],
     }),
