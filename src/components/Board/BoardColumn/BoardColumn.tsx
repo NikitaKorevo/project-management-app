@@ -12,11 +12,11 @@ import {
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
-import BoardTask from '../BoardTask/BoardTask';
 import { taskAPI } from '../../../services/taskAPI';
-import BoardTaskCreationForm from '../BoardTaskCreationForm/BoardTaskCreationForm';
 import { columnAPI } from '../../../services/columnAPI';
 import ConfirmationModal from '../../ConfirmationModal/ConfirmationModal';
+import BoardTaskCreationForm from '../BoardTaskCreationForm/BoardTaskCreationForm';
+import BoardTask from '../BoardTask/BoardTask';
 
 interface IBoardColumnProps {
   boardId: string;
@@ -38,6 +38,10 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
 
   const handleClickTitle = (): void => {
     setIsTitleEditMode(true);
+  };
+
+  const handleChangeTextFieldTitle = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setTextFieldValue(e.target.value);
   };
 
   const approveTitleChange = (): void => {
@@ -65,7 +69,7 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
   const allTasksElement = allTasks?.map((task) => {
     const { id } = task;
 
-    return <BoardTask key={id} boardId={boardId} columnId={columnId} taskData={task} />;
+    return <BoardTask key={id} taskData={task} />;
   });
 
   return (
@@ -83,11 +87,7 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         {isTitleEditMode ? (
           <>
-            <TextField
-              size="small"
-              value={textFieldValue}
-              onChange={(e) => setTextFieldValue(e.target.value)}
-            />
+            <TextField size="small" value={textFieldValue} onChange={handleChangeTextFieldTitle} />
 
             <IconButton onClick={approveTitleChange}>
               <DoneOutlinedIcon />
@@ -113,7 +113,7 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
       <Divider />
 
       <Box sx={{ position: 'relative', flexGrow: '1', overflowY: 'auto' }}>
-        <List>
+        <List sx={{ display: 'flex', flexDirection: 'column' }}>
           {isLoading && <LinearProgress />}
           {isError && <Typography p={1}>An error has occurred!</Typography>}
           {allTasksElement}

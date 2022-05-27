@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { BASE_URL_API } from '../constants/appConstants';
 import { RootStateType } from '../store/store';
-import { ICreateTaskDto, ITask } from '../types/ITask';
+import { ICreateTaskDto, ITask, IUpdateTaskDto } from '../types/ITask';
 
 interface IGetAllTasksQueryArgument {
   boardId: string;
@@ -13,9 +13,19 @@ interface ICreateTaskQueryArgument extends ICreateTaskDto {
   columnId: string;
 }
 
+interface IGetTaskQueryArgument {
+  boardId: string;
+  columnId: string;
+  taskId: string;
+}
+
 interface IDeleteTaskQueryArgument {
   boardId: string;
   columnId: string;
+  taskId: string;
+}
+
+interface IUpdateTaskQueryArgument extends IUpdateTaskDto {
   taskId: string;
 }
 
@@ -49,10 +59,26 @@ export const taskAPI = createApi({
       invalidatesTags: ['Task'],
     }),
 
+    getTask: builder.query<ITask, IGetTaskQueryArgument>({
+      query: ({ boardId, columnId, taskId }) => ({
+        url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+      }),
+      providesTags: ['Task'],
+    }),
+
     deleteTask: builder.mutation<void, IDeleteTaskQueryArgument>({
       query: ({ boardId, columnId, taskId }) => ({
         url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
         method: 'DELETE',
+      }),
+      invalidatesTags: ['Task'],
+    }),
+
+    updateTask: builder.mutation<ITask, IUpdateTaskQueryArgument>({
+      query: ({ boardId, columnId, taskId, userId, title, order, description }) => ({
+        url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+        method: 'PUT',
+        body: { boardId, columnId, userId, title, order, description },
       }),
       invalidatesTags: ['Task'],
     }),

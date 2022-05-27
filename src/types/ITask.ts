@@ -6,7 +6,7 @@ export interface ITask {
   userId: string;
   boardId: string;
   columnId: string;
-  files: [];
+  files?: [];
 }
 
 export interface ICreateTaskDto {
@@ -15,4 +15,11 @@ export interface ICreateTaskDto {
   userId: string;
 }
 
-// export interface IUpdateTaskDto {}
+export interface IUpdateTaskDto {
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
+  boardId: string;
+  columnId: string;
+}
