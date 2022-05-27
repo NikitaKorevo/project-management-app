@@ -36,24 +36,25 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
   const [isTitleEditMode, setIsTitleEditMode] = useState(false);
   const [textFieldValue, setTextFieldValue] = useState(title);
 
-  const handleClickTitle = () => {
+  const handleClickTitle = (): void => {
     setIsTitleEditMode(true);
   };
 
-  const approveTitleChange = () => {
+  const approveTitleChange = (): void => {
     updateColumn({ boardId, columnId, title: textFieldValue, order });
     setIsTitleEditMode(false);
   };
 
-  const cancelTitleChange = () => {
+  const cancelTitleChange = (): void => {
     setIsTitleEditMode(false);
+    setTextFieldValue(title);
   };
 
   const handleClickDeleteIcon = (): void => {
     setIsConfirmationModalOpen(true);
   };
 
-  const deleteSelectedColumn = async () => {
+  const deleteSelectedColumn = (): void => {
     deleteColumn({ boardId, columnId });
   };
 
@@ -62,9 +63,9 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
   };
 
   const allTasksElement = allTasks?.map((task) => {
-    const { id, title, description } = task;
+    const { id } = task;
 
-    return <BoardTask key={id} title={title} description={description} />;
+    return <BoardTask key={id} boardId={boardId} columnId={columnId} taskData={task} />;
   });
 
   return (
@@ -72,7 +73,7 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        flexBasis: '275px',
+        flexBasis: '280px',
         flexShrink: 0,
         order,
         backgroundColor: '#fff',

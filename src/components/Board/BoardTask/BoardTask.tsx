@@ -1,12 +1,33 @@
-import { Box, Typography } from '@mui/material';
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import ConfirmationModal from '../../ConfirmationModal/ConfirmationModal';
+import { taskAPI } from '../../../services/taskAPI';
+import { ITask } from '../../../types/ITask';
 
 interface IBoardTaskProps {
-  title: string;
-  description: string;
+  boardId: string;
+  columnId: string;
+  taskData: ITask;
 }
 
-const BoardTask: FC<IBoardTaskProps> = ({ title, description }) => {
+const BoardTask: FC<IBoardTaskProps> = ({
+  boardId,
+  columnId,
+  taskData: { id, title, description },
+}) => {
+  const [deleteTask] = taskAPI.useDeleteTaskMutation();
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+
+  const handleClickDeleteIcon = (): void => {
+    setIsConfirmationModalOpen(true);
+  };
+
+  const deleteSelectedTask = (): void => {
+    deleteTask({ boardId, columnId, taskId: id });
+  };
+
   return (
     <Box
       sx={{
@@ -21,6 +42,22 @@ const BoardTask: FC<IBoardTaskProps> = ({ title, description }) => {
       </Typography>
 
       <Typography variant="body2">{description}</Typography>
+
+      <Stack direction="row" justifyContent="flex-end" spacing={1}>
+        <IconButton size="small">
+          <EditOutlinedIcon />
+        </IconButton>
+
+        <IconButton size="small" onClick={handleClickDeleteIcon}>
+          <DeleteOutlineOutlinedIcon />
+        </IconButton>
+      </Stack>
+
+      <ConfirmationModal
+        isConfirmationModalOpen={isConfirmationModalOpen}
+        setIsConfirmationModalOpen={setIsConfirmationModalOpen}
+        deleteItem={deleteSelectedTask}
+      />
     </Box>
   );
 };

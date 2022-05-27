@@ -13,6 +13,12 @@ interface ICreateTaskQueryArgument extends ICreateTaskDto {
   columnId: string;
 }
 
+interface IDeleteTaskQueryArgument {
+  boardId: string;
+  columnId: string;
+  taskId: string;
+}
+
 export const taskAPI = createApi({
   reducerPath: 'taskAPI',
 
@@ -39,6 +45,14 @@ export const taskAPI = createApi({
         url: `/boards/${boardId}/columns/${columnId}/tasks`,
         method: 'POST',
         body: { title, description, userId },
+      }),
+      invalidatesTags: ['Task'],
+    }),
+
+    deleteTask: builder.mutation<void, IDeleteTaskQueryArgument>({
+      query: ({ boardId, columnId, taskId }) => ({
+        url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+        method: 'DELETE',
       }),
       invalidatesTags: ['Task'],
     }),
