@@ -54,10 +54,7 @@ export const boardAPI = createApi({
       query: ({ boardId, title, description }) => ({
         url: `/boards/${boardId}`,
         method: 'PUT',
-        body: {
-          title,
-          description,
-        },
+        body: { title, description },
       }),
       invalidatesTags: ['Board'],
     }),

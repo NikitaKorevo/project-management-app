@@ -1,10 +1,25 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { BASE_URL_API } from '../constants/appConstants';
 import { RootStateType } from '../store/store';
-import { IColumn, ICreateColumnDto } from '../types/IColumn';
+import { IColumn, IColumns, ICreateColumnDto, IUpdateColumnDto } from '../types/IColumn';
 
 interface ICreateColumnQueryArgument extends ICreateColumnDto {
   boardId: string;
+}
+
+interface IGetColumnQueryArgument {
+  boardId: string;
+  columnId: string;
+}
+
+interface IDeleteColumnQueryArgument {
+  boardId: string;
+  columnId: string;
+}
+
+interface IUpdateColumnQueryArgument extends IUpdateColumnDto {
+  boardId: string;
+  columnId: string;
 }
 
 export const columnAPI = createApi({
@@ -23,16 +38,38 @@ export const columnAPI = createApi({
   tagTypes: ['Column'],
 
   endpoints: (builder) => ({
-    getAllColumns: builder.query<Array<IColumn>, string>({
+    getAllColumns: builder.query<Array<IColumns>, string>({
       query: (boardId) => `/boards/${boardId}/columns`,
       providesTags: ['Column'],
     }),
 
-    createColumn: builder.mutation<IColumn, ICreateColumnQueryArgument>({
+    createColumn: builder.mutation<IColumns, ICreateColumnQueryArgument>({
       query: ({ boardId, title }) => ({
         url: `/boards/${boardId}/columns`,
         method: 'POST',
         body: { title },
+      }),
+      invalidatesTags: ['Column'],
+    }),
+
+    getColumn: builder.query<IColumn, IGetColumnQueryArgument>({
+      query: ({ boardId, columnId }) => `/boards/${boardId}/columns/${columnId}`,
+      providesTags: ['Column'],
+    }),
+
+    deleteColumn: builder.mutation<void, IDeleteColumnQueryArgument>({
+      query: ({ boardId, columnId }) => ({
+        url: `/boards/${boardId}/columns/${columnId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Column'],
+    }),
+
+    updateColumn: builder.mutation<IColumns, IUpdateColumnQueryArgument>({
+      query: ({ boardId, columnId, title, order }) => ({
+        url: `/boards/${boardId}/columns/${columnId}`,
+        method: 'PUT',
+        body: { title, order },
       }),
       invalidatesTags: ['Column'],
     }),

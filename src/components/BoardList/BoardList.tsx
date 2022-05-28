@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Divider, LinearProgress, List, ListItem, ListItemText, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  IconButton,
+  LinearProgress,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { boardAPI } from '../../services/boardAPI';
 import { IBoard } from '../../types/IBoard';
@@ -36,13 +46,13 @@ const BoardList: React.FC = () => {
       <React.Fragment key={id}>
         {index !== 0 && <Divider variant="middle" />}
         <ListItem>
-          <ListItemText
-            primary={title}
-            secondary={description}
-            sx={{ cursor: 'pointer' }}
-            onClick={() => navigateToBoard(id)}
-          />
-          <DeleteIcon sx={{ cursor: 'pointer' }} onClick={() => handleClickDeleteIcon(id)} />
+          <ListItemButton onClick={() => navigateToBoard(id)}>
+            <ListItemText primary={title} secondary={description} />
+          </ListItemButton>
+
+          <IconButton onClick={() => handleClickDeleteIcon(id)}>
+            <DeleteIcon />
+          </IconButton>
         </ListItem>
       </React.Fragment>
     );
@@ -53,13 +63,14 @@ const BoardList: React.FC = () => {
   }
 
   return (
-    <div>
+    <Box>
       {isError && <Typography>An error has occurred!</Typography>}
       <ConfirmationModal
         isConfirmationModalOpen={isConfirmationModalOpen}
         setIsConfirmationModalOpen={setIsConfirmationModalOpen}
         deleteItem={deleteSelectedBoard}
       />
+
       {allBoardsElement?.length !== 0 && (
         <List
           sx={{
@@ -74,7 +85,7 @@ const BoardList: React.FC = () => {
           {isFetching && <LinearProgress />}
         </List>
       )}
-    </div>
+    </Box>
   );
 };
 
