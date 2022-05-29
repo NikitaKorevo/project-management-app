@@ -1,0 +1,21 @@
+.boardColumn {
+  transition: .2s ease-in-out;
+}
+
+.boardColumn input {
+  pointer-events: none;
+}
+
+/*.boardTask *:not(.boardTask > div, .boardTask > div *) {
+  pointer-events: none;
+}*/
+
+.onDragging * {
+  pointer-events: none;
+  /*background-color: #ff5722 !important;*/
+}
+
+.onDragOver {
+  box-shadow: 0 4px 3px gray;
+  /*margin-top: 3em;*/
+}
