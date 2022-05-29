@@ -17,8 +17,6 @@ import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import Spinner from '../Spinner/Spinner';
 
-const;
-
 const BoardList: React.FC = () => {
   const { data, isLoading, isFetching, isError } = boardAPI.useGetAllBoardsQuery();
   const [deleteBoard, {}] = boardAPI.useDeleteBoardMutation();
@@ -62,10 +60,6 @@ const BoardList: React.FC = () => {
 
   if (isLoading) {
     return <Spinner />;
-  }
-
-  if (!isLoading) {
-    throw new Error('Error for testing CI/CD');
   }
 
   return (
