@@ -6,16 +6,20 @@
   pointer-events: none;
 }
 
-/*.boardTask *:not(.boardTask > div, .boardTask > div *) {
-  pointer-events: none;
-}*/
+.boardColumn > div {
+  transition: .2s ease-in-out;
+}
 
 .onDragging * {
   pointer-events: none;
-  /*background-color: #ff5722 !important;*/
 }
 
 .onDragOver {
+  flex-basis: calc(280px + 7em) !important;
+}
+
+.onDragOver > div {
   box-shadow: 0 1em 1em gray;
-  /*margin-top: 3em;*/
+  margin-left: 7em;
+  transform: perspective(1000px) rotateY(-5deg);
 }

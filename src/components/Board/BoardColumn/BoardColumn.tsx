@@ -155,8 +155,8 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
         flexBasis: '280px',
         flexShrink: 0,
         order,
-        backgroundColor: '#fff',
         borderRadius: 2,
+        margin: '0',
       }}
       draggable={!taskDragState.state}
       onDragOver={(e) => dragOverHandler(e)}
@@ -166,61 +166,82 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
       onDrop={(e) => onDropHandler(e, columnId, order)}
       className={`${styles.boardColumn} ${columnDragState.state ? styles.onDragging : ''}`}
     >
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        {isTitleEditMode ? (
-          <>
-            <TextField size="small" value={textFieldValue} onChange={handleChangeTextFieldTitle} />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          backgroundColor: '#fff',
+          borderRadius: 2,
+        }}
+        draggable={!taskDragState.state}
+        onDragOver={(e) => dragOverHandler(e)}
+        onDragLeave={(e) => dragLeaveHandler(e)}
+        onDragEnter={(e) => dragStartHandler(e, columnId, title)}
+        onDragEnd={(e) => dragEndHandler(e)}
+        onDrop={(e) => onDropHandler(e, columnId, order)}
+        className={`${styles.boardColumn} ${columnDragState.state ? styles.onDragging : ''}`}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          {isTitleEditMode ? (
+            <>
+              <TextField
+                size="small"
+                value={textFieldValue}
+                onChange={handleChangeTextFieldTitle}
+              />
 
-            <IconButton onClick={approveTitleChange}>
-              <DoneOutlinedIcon />
-            </IconButton>
+              <IconButton onClick={approveTitleChange}>
+                <DoneOutlinedIcon />
+              </IconButton>
 
-            <IconButton onClick={cancelTitleChange}>
-              <ClearOutlinedIcon />
-            </IconButton>
-          </>
-        ) : (
-          <>
-            <Typography variant="h6" component="h2" p={1} onClick={handleClickTitle}>
-              {`${title} (${order})`}
-            </Typography>
+              <IconButton onClick={cancelTitleChange}>
+                <ClearOutlinedIcon />
+              </IconButton>
+            </>
+          ) : (
+            <>
+              <Typography variant="h6" component="h2" p={1} onClick={handleClickTitle}>
+                {`${title} (${order})`}
+              </Typography>
 
-            <IconButton onClick={handleClickDeleteIcon}>
-              <DeleteIcon />
-            </IconButton>
-          </>
+              <IconButton onClick={handleClickDeleteIcon}>
+                <DeleteIcon />
+              </IconButton>
+            </>
+          )}
+        </Box>
+
+        <Divider />
+
+        <Box sx={{ position: 'relative', flexGrow: '1', overflowY: 'auto' }}>
+          <List sx={{ display: 'flex', flexDirection: 'column' }}>
+            {isLoading && <LinearProgress />}
+            {isError && <Typography p={1}>An error has occurred!</Typography>}
+            {allTasksElement}
+          </List>
+        </Box>
+
+        <Divider />
+
+        <Button variant="text" onClick={openBoardTaskCreationForm}>
+          add task
+        </Button>
+
+        {isBoardTaskCreationFormOpen && (
+          <BoardTaskCreationForm
+            isFormOpen={isBoardTaskCreationFormOpen}
+            setIsFormOpen={setIsBoardTaskCreationFormOpen}
+            columnId={columnId}
+          />
         )}
-      </Box>
 
-      <Divider />
-
-      <Box sx={{ position: 'relative', flexGrow: '1', overflowY: 'auto' }}>
-        <List sx={{ display: 'flex', flexDirection: 'column' }}>
-          {isLoading && <LinearProgress />}
-          {isError && <Typography p={1}>An error has occurred!</Typography>}
-          {allTasksElement}
-        </List>
-      </Box>
-
-      <Divider />
-
-      <Button variant="text" onClick={openBoardTaskCreationForm}>
-        add task
-      </Button>
-
-      {isBoardTaskCreationFormOpen && (
-        <BoardTaskCreationForm
-          isFormOpen={isBoardTaskCreationFormOpen}
-          setIsFormOpen={setIsBoardTaskCreationFormOpen}
-          columnId={columnId}
+        <ConfirmationModal
+          isConfirmationModalOpen={isConfirmationModalOpen}
+          setIsConfirmationModalOpen={setIsConfirmationModalOpen}
+          deleteItem={deleteSelectedColumn}
         />
-      )}
-
-      <ConfirmationModal
-        isConfirmationModalOpen={isConfirmationModalOpen}
-        setIsConfirmationModalOpen={setIsConfirmationModalOpen}
-        deleteItem={deleteSelectedColumn}
-      />
+      </Box>
     </Box>
   );
 };
