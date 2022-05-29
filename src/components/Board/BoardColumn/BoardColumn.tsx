@@ -174,13 +174,6 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
           backgroundColor: '#fff',
           borderRadius: 2,
         }}
-        draggable={!taskDragState.state}
-        onDragOver={(e) => dragOverHandler(e)}
-        onDragLeave={(e) => dragLeaveHandler(e)}
-        onDragEnter={(e) => dragStartHandler(e, columnId, title)}
-        onDragEnd={(e) => dragEndHandler(e)}
-        onDrop={(e) => onDropHandler(e, columnId, order)}
-        className={`${styles.boardColumn} ${columnDragState.state ? styles.onDragging : ''}`}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           {isTitleEditMode ? (
