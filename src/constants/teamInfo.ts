@@ -6,7 +6,7 @@ export const TEAM_INFO = [
   },
   {
     name: 'Alex Mz',
-    ghPage: '',
+    ghPage: 'https://github.com/NikitaKorevo/',
     nameShort: 'AM',
   },
   {
