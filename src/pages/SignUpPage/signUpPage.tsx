@@ -53,6 +53,7 @@ const SignUpPage: React.FC = () => {
           },
           method: 'POST',
         });
+        localStorage.setItem('isAuth', 'true');
         navigate('/');
       } catch (err) {
         console.log(err);

@@ -51,6 +51,7 @@ const SignInPage: React.FC = () => {
     },
     validate,
     onSubmit: () => {
+      localStorage.setItem('isAuth', 'true');
       navigate('/');
     },
   });
