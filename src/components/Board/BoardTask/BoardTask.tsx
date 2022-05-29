@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Box, IconButton, Stack, TextField, Typography } from '@mui/material';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
@@ -7,6 +7,9 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import { ITask } from '../../../types/ITask';
 import { taskAPI } from '../../../services/taskAPI';
 import ConfirmationModal from '../../ConfirmationModal/ConfirmationModal';
+import styles from './BoardTask.module.css';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { setColumnDragState, setTaskDragState } from '../../../store/reducers/draggingSlice';
 
 interface IBoardTaskProps {
   taskData: ITask;
@@ -17,6 +20,9 @@ const BoardTask: FC<IBoardTaskProps> = ({
 }) => {
   const [deleteTask] = taskAPI.useDeleteTaskMutation();
   const [updateTask] = taskAPI.useUpdateTaskMutation();
+  const [updateTaskPosition] = taskAPI.useUpdateTaskPositionMutation();
+  const { taskDragState, columnDragState } = useAppSelector((state) => state.dragging);
+  const dispatch = useAppDispatch();
 
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
@@ -63,6 +69,69 @@ const BoardTask: FC<IBoardTaskProps> = ({
     deleteTask({ boardId, columnId, taskId: id });
   };
 
+  const dragOverHandler = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (
+      (e.target as HTMLDivElement).className.includes(styles.boardTask) &&
+      taskDragState.state === true
+    ) {
+      (e.target as HTMLDivElement).classList.add(styles.onDragOver);
+    }
+  };
+
+  const dragLeaveHandler = (e: React.DragEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    (e.target as HTMLDivElement).classList.remove(styles.onDragOver);
+  };
+
+  const dragStartHandler = (
+    e: React.DragEvent<HTMLDivElement>,
+    boardColumn: string,
+    boardTask: string
+  ) => {
+    e.stopPropagation();
+    if (!taskDragState.state) {
+      dispatch(
+        setTaskDragState({
+          state: true,
+          columnId: boardColumn,
+          taskId: boardTask,
+          userId,
+          title: textFieldTitleValue,
+          description: textFieldDescriptionValue,
+        })
+      );
+    }
+  };
+
+  const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    (e.target as HTMLDivElement).classList.remove(styles.onDragOver);
+    dispatch(setTaskDragState({ state: false }));
+  };
+
+  const onDropHandler = (
+    e: React.DragEvent<HTMLDivElement>,
+    boardColumn: string,
+    boardTask: string,
+    order: number
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    (e.target as HTMLDivElement).classList.remove(styles.onDragOver);
+    updateTaskPosition({
+      boardId,
+      columnId: taskDragState.columnId ?? '',
+      taskId: taskDragState.taskId ?? '',
+      userId: taskDragState.userId ?? '',
+      title: taskDragState.title ?? '',
+      description: taskDragState.description ?? '',
+      order,
+      newColumnId: boardColumn,
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -75,6 +144,23 @@ const BoardTask: FC<IBoardTaskProps> = ({
         border: '1px solid rgba(25, 118, 210, 0.5)',
         borderRadius: 1,
       }}
+      draggable={true}
+      onDragOver={(e) => {
+        dragOverHandler(e);
+      }}
+      onDragLeave={(e) => {
+        dragLeaveHandler(e);
+      }}
+      onDragEnter={(e) => {
+        dragStartHandler(e, columnId, id);
+      }}
+      onDragEnd={(e) => {
+        dragEndHandler(e);
+      }}
+      onDrop={(e) => {
+        onDropHandler(e, columnId, id, order);
+      }}
+      className={`${styles.boardTask} ${taskDragState.state ? styles.onDragging : ''}`}
     >
       {isTaskEditMode ? (
         <>
