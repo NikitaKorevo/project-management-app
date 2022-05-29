@@ -62,6 +62,10 @@ const BoardList: React.FC = () => {
     return <Spinner />;
   }
 
+  if (!isLoading) {
+    throw new Error('Error for testing CI/CD');
+  }
+
   return (
     <Box>
       {isError && <Typography>An error has occurred!</Typography>}
