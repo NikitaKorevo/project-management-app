@@ -17,6 +17,8 @@ import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import Spinner from '../Spinner/Spinner';
 
+const;
+
 const BoardList: React.FC = () => {
   const { data, isLoading, isFetching, isError } = boardAPI.useGetAllBoardsQuery();
   const [deleteBoard, {}] = boardAPI.useDeleteBoardMutation();
