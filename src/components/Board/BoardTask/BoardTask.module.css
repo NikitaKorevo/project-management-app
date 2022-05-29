@@ -6,16 +6,16 @@
   pointer-events: none;
 }
 
-/*.boardTask *:not(.boardTask > div, .boardTask > div *) {
-  pointer-events: none;
-}*/
+.boardTask > div {
+  transition: .2s ease-in-out;
+}
 
 .onDragging * {
   pointer-events: none;
-  /*background-color: #ff5722 !important;*/
 }
 
-.onDragOver {
-  box-shadow: 0 4px 3px gray;
-  /*margin-top: 3em;*/
+.onDragOver > div {
+  box-shadow: 0 1em 1em gray;
+  margin-top: 5em;
+  transform: perspective(1000px) rotateX(15deg);
 }

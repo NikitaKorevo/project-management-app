@@ -16,6 +16,6 @@
 }
 
 .onDragOver {
-  box-shadow: 0 4px 3px gray;
+  box-shadow: 0 1em 1em gray;
   /*margin-top: 3em;*/
 }

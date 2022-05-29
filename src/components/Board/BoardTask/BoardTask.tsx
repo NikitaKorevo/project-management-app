@@ -140,9 +140,10 @@ const BoardTask: FC<IBoardTaskProps> = ({
         gap: 0.2,
         m: 1,
         p: 1,
-        order,
-        border: '1px solid rgba(25, 118, 210, 0.5)',
+        border: '0',
+        padding: '0',
         borderRadius: 1,
+        order,
       }}
       draggable={true}
       onDragOver={(e) => {
@@ -162,61 +163,72 @@ const BoardTask: FC<IBoardTaskProps> = ({
       }}
       className={`${styles.boardTask} ${taskDragState.state ? styles.onDragging : ''}`}
     >
-      {isTaskEditMode ? (
-        <>
-          <TextField
-            size="small"
-            value={textFieldTitleValue}
-            fullWidth
-            onChange={handleChangeTextFieldTitle}
-          />
-
-          <TextField
-            multiline
-            value={textFieldDescriptionValue}
-            fullWidth
-            onChange={handleChangeTextFieldDescription}
-          />
-        </>
-      ) : (
-        <>
-          <Typography variant="body1" component="h3">
-            {title}
-          </Typography>
-
-          <Typography variant="body2">{description}</Typography>
-        </>
-      )}
-
-      <Stack direction="row" justifyContent="flex-end" spacing={1}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 0.2,
+          m: 1,
+          p: 1,
+          border: '1px solid rgba(25, 118, 210, 0.5)',
+          borderRadius: 1,
+          margin: '0',
+        }}
+      >
         {isTaskEditMode ? (
           <>
-            <IconButton size="small" onClick={approveTaskChange}>
-              <DoneOutlinedIcon />
-            </IconButton>
+            <TextField
+              size="small"
+              value={textFieldTitleValue}
+              fullWidth
+              onChange={handleChangeTextFieldTitle}
+            />
 
-            <IconButton size="small" onClick={cancelTaskChange}>
-              <ClearOutlinedIcon />
-            </IconButton>
+            <TextField
+              multiline
+              value={textFieldDescriptionValue}
+              fullWidth
+              onChange={handleChangeTextFieldDescription}
+            />
           </>
         ) : (
           <>
-            <IconButton size="small" onClick={handleClickEditIcon}>
-              <EditOutlinedIcon />
-            </IconButton>
+            <Typography variant="body1" component="h3">
+              {title}
+            </Typography>
 
-            <IconButton size="small" onClick={handleClickDeleteIcon}>
-              <DeleteOutlineOutlinedIcon />
-            </IconButton>
+            <Typography variant="body2">{description}</Typography>
           </>
         )}
-      </Stack>
+        <Stack direction="row" justifyContent="flex-end" spacing={1}>
+          {isTaskEditMode ? (
+            <>
+              <IconButton size="small" onClick={approveTaskChange}>
+                <DoneOutlinedIcon />
+              </IconButton>
 
-      <ConfirmationModal
-        isConfirmationModalOpen={isConfirmationModalOpen}
-        setIsConfirmationModalOpen={setIsConfirmationModalOpen}
-        deleteItem={deleteSelectedTask}
-      />
+              <IconButton size="small" onClick={cancelTaskChange}>
+                <ClearOutlinedIcon />
+              </IconButton>
+            </>
+          ) : (
+            <>
+              <IconButton size="small" onClick={handleClickEditIcon}>
+                <EditOutlinedIcon />
+              </IconButton>
+
+              <IconButton size="small" onClick={handleClickDeleteIcon}>
+                <DeleteOutlineOutlinedIcon />
+              </IconButton>
+            </>
+          )}
+        </Stack>
+        <ConfirmationModal
+          isConfirmationModalOpen={isConfirmationModalOpen}
+          setIsConfirmationModalOpen={setIsConfirmationModalOpen}
+          deleteItem={deleteSelectedTask}
+        />
+      </Box>
     </Box>
   );
 };
