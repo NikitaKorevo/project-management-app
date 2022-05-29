@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './signUpPage.module.css';
 import { FormikErrors, useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { Button, Typography, Input } from '@mui/material';
 
 interface FormInputs {
   name: string;
@@ -61,11 +62,13 @@ const SignUpPage: React.FC = () => {
 
   return (
     <div className={styles.signUpPage}>
-      <p>SignUpPage</p>
+      <Typography variant="h5" component="h1" mt={2} mb={2}>
+        Sign Up:
+      </Typography>
       <form className={styles.signUpForm} onSubmit={formik.handleSubmit}>
         <label htmlFor="name">
           Enter your name:
-          <input
+          <Input
             id="name"
             name="name"
             type="text"
@@ -75,11 +78,11 @@ const SignUpPage: React.FC = () => {
           />
         </label>
         {formik.touched.name && formik.errors.name ? (
-          <div className={styles.error}>{formik.errors.name}</div>
+          <Typography className={styles.error}>{formik.errors.name}</Typography>
         ) : null}
         <label htmlFor="login">
           Enter your login:
-          <input
+          <Input
             id="login"
             name="login"
             type="text"
@@ -89,11 +92,11 @@ const SignUpPage: React.FC = () => {
           />
         </label>
         {formik.touched.login && formik.errors.login ? (
-          <div className={styles.error}>{formik.errors.login}</div>
+          <Typography className={styles.error}>{formik.errors.login}</Typography>
         ) : null}
         <label htmlFor="password">
           Enter your password:
-          <input
+          <Input
             id="password"
             name="password"
             type="text"
@@ -103,9 +106,11 @@ const SignUpPage: React.FC = () => {
           />
         </label>
         {formik.touched.password && formik.errors.password ? (
-          <div className={styles.error}>{formik.errors.password}</div>
+          <Typography className={styles.error}>{formik.errors.password}</Typography>
         ) : null}
-        <button type="submit">Submit</button>
+        <Button sx={{ marginBottom: 2 }} variant="outlined" type="submit">
+          Submit
+        </Button>
       </form>
     </div>
   );
