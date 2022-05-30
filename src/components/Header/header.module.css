@@ -1,6 +1,8 @@
 .header {
-  background-color: aliceblue;
-  box-shadow: black 1em 1em 1em;
+  position: sticky !important;
+  top: 0;
+  z-index: 1;
+  transition: height 0.2s ease-in-out !important;
 }
 
 .appName {

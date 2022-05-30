@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './header.module.css';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -20,10 +20,30 @@ import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [sideMenuState, setSideMenuState] = useState(false);
+  const [headerScrollingState, setHeaderScrollingState] = useState(false);
+
+  const scrollHandler = () => {
+    if (window.scrollY > 0) {
+      setHeaderScrollingState(true);
+    } else {
+      setHeaderScrollingState(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollHandler);
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
+    };
+  }, []);
 
   return (
-    <AppBar position="static" className={styles.header}>
-      <Toolbar>
+    <AppBar
+      position="static"
+      className={styles.header}
+      sx={{ height: headerScrollingState ? '3em' : '3.5em' }}
+    >
+      <Toolbar sx={{ minHeight: '0 !important', height: '100%' }}>
         <IconButton
           sx={{ display: { xs: 'flex', lg: 'none' }, marginRight: { xs: '0', sm: '1em' } }}
           onClick={() => {
