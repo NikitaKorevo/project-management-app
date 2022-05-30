@@ -129,9 +129,6 @@ const Header: React.FC = () => {
                 <Button component={Link} to={APP_ROUTES.MAIN} color="inherit">
                   MAIN
                 </Button>
-                <Button component={Link} to={`${APP_ROUTES.BOARD}/1`} color="inherit">
-                  BOARD
-                </Button>
               </>
             )}
           </Box>
