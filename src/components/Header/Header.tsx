@@ -17,10 +17,12 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import APP_ROUTES from '../../constants/appRoutes';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/redux';
 
 const Header: React.FC = () => {
   const [sideMenuState, setSideMenuState] = useState(false);
   const [headerScrollingState, setHeaderScrollingState] = useState(false);
+  const { isAuth } = useAppSelector((state) => state.basis);
 
   const scrollHandler = () => {
     if (window.scrollY > 0) {
@@ -122,24 +124,42 @@ const Header: React.FC = () => {
             <Button component={Link} to={APP_ROUTES.WELCOME} color="inherit">
               WELCOME
             </Button>
-            <Button component={Link} to={APP_ROUTES.MAIN} color="inherit">
-              MAIN
-            </Button>
-            <Button component={Link} to={`${APP_ROUTES.BOARD}/1`} color="inherit">
-              BOARD
-            </Button>
+            {isAuth && (
+              <>
+                <Button component={Link} to={APP_ROUTES.MAIN} color="inherit">
+                  MAIN
+                </Button>
+                <Button component={Link} to={`${APP_ROUTES.BOARD}/1`} color="inherit">
+                  BOARD
+                </Button>
+              </>
+            )}
           </Box>
-          <Box
-            className={styles.authorisationButtonGroup}
-            sx={{ display: { xs: 'none', sm: 'flex' } }}
-          >
-            <Button component={Link} to={APP_ROUTES.SIGN_IN} variant="outlined" color="inherit">
-              SIGN_IN
-            </Button>
-            <Button component={Link} to={APP_ROUTES.SIGN_UP} color="inherit">
-              SIGN_UP
-            </Button>
-          </Box>
+          {isAuth ? (
+            <Box
+              className={styles.authorisationButtonGroup}
+              sx={{ display: { xs: 'none', sm: 'flex' } }}
+            >
+              <Button component={Link} to={APP_ROUTES.SIGN_IN} variant="outlined" color="inherit">
+                Go to Main Page
+              </Button>
+              <Button component={Link} to={APP_ROUTES.SIGN_IN} variant="outlined" color="inherit">
+                Sign Out
+              </Button>
+            </Box>
+          ) : (
+            <Box
+              className={styles.authorisationButtonGroup}
+              sx={{ display: { xs: 'none', sm: 'flex' } }}
+            >
+              <Button component={Link} to={APP_ROUTES.SIGN_IN} variant="outlined" color="inherit">
+                Sign In
+              </Button>
+              <Button component={Link} to={APP_ROUTES.SIGN_UP} color="inherit">
+                Sign Up
+              </Button>
+            </Box>
+          )}
         </Box>
       </Toolbar>
     </AppBar>
