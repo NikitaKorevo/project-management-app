@@ -1,12 +1,12 @@
 export const TEAM_INFO = [
   {
     name: 'Naikita Korevo',
-    ghPage: 'https://github.com/NikitaKorevo/',
+    ghPage: 'https://github.com/NikitaKorevo',
     nameShort: 'NK',
   },
   {
     name: 'Alex Mz',
-    ghPage: 'https://github.com/NikitaKorevo/',
+    ghPage: 'https://github.com/MrAlexMz',
     nameShort: 'AM',
   },
   {
