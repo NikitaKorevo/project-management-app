@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Box, IconButton, Stack, TextField, Typography } from '@mui/material';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
@@ -6,7 +6,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { ITask } from '../../../types/ITask';
 import { taskAPI } from '../../../services/taskAPI';
-import ConfirmationModal from '../../ConfirmationModal/ConfirmationModal';
+import useConfirmationModal from '../../../hooks/useConfirmationModal';
 import styles from './BoardTask.module.css';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { setColumnDragState, setTaskDragState } from '../../../store/reducers/draggingSlice';
@@ -24,11 +24,17 @@ const BoardTask: FC<IBoardTaskProps> = ({
   const { taskDragState, columnDragState } = useAppSelector((state) => state.dragging);
   const dispatch = useAppDispatch();
 
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const { confirmationModalElement, isAgree, openConfirmationModal } = useConfirmationModal('task');
 
   const [isTaskEditMode, setIsTaskEditMode] = useState(false);
   const [textFieldTitleValue, setTextFieldTitleValue] = useState(title);
   const [textFieldDescriptionValue, setTextFieldDescriptionValue] = useState(description);
+
+  useEffect(() => {
+    if (isAgree) {
+      deleteTask({ boardId, columnId, taskId: id });
+    }
+  }, [isAgree, boardId, columnId, id, deleteTask]);
 
   const handleClickEditIcon = (): void => {
     setIsTaskEditMode(true);
@@ -62,11 +68,7 @@ const BoardTask: FC<IBoardTaskProps> = ({
   };
 
   const handleClickDeleteIcon = (): void => {
-    setIsConfirmationModalOpen(true);
-  };
-
-  const deleteSelectedTask = (): void => {
-    deleteTask({ boardId, columnId, taskId: id });
+    openConfirmationModal();
   };
 
   const dragOverHandler = (e: React.DragEvent<HTMLDivElement>) => {
@@ -225,12 +227,9 @@ const BoardTask: FC<IBoardTaskProps> = ({
             </>
           )}
         </Stack>
-        <ConfirmationModal
-          isConfirmationModalOpen={isConfirmationModalOpen}
-          setIsConfirmationModalOpen={setIsConfirmationModalOpen}
-          deleteItem={deleteSelectedTask}
-        />
       </Box>
+
+      {confirmationModalElement}
     </Box>
   );
 };

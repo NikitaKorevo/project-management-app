@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -14,7 +14,7 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { taskAPI } from '../../../services/taskAPI';
 import { columnAPI } from '../../../services/columnAPI';
-import ConfirmationModal from '../../ConfirmationModal/ConfirmationModal';
+import useConfirmationModal from '../../../hooks/useConfirmationModal';
 import BoardTaskCreationForm from '../BoardTaskCreationForm/BoardTaskCreationForm';
 import BoardTask from '../BoardTask/BoardTask';
 import styles from './BoardColumn.module.css';
@@ -36,11 +36,18 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
   const { columnDragState, taskDragState } = useAppSelector((state) => state.dragging);
   const dispatch = useAppDispatch();
 
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const { confirmationModalElement, isAgree, openConfirmationModal } =
+    useConfirmationModal('column');
   const [isBoardTaskCreationFormOpen, setIsBoardTaskCreationFormOpen] = useState(false);
 
   const [isTitleEditMode, setIsTitleEditMode] = useState(false);
   const [textFieldValue, setTextFieldValue] = useState(title);
+
+  useEffect(() => {
+    if (isAgree) {
+      deleteColumn({ boardId, columnId });
+    }
+  }, [isAgree, boardId, columnId, deleteColumn]);
 
   const handleClickTitle = (): void => {
     setIsTitleEditMode(true);
@@ -61,11 +68,7 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
   };
 
   const handleClickDeleteIcon = (): void => {
-    setIsConfirmationModalOpen(true);
-  };
-
-  const deleteSelectedColumn = (): void => {
-    deleteColumn({ boardId, columnId });
+    openConfirmationModal();
   };
 
   const openBoardTaskCreationForm = (): void => {
@@ -239,13 +242,9 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
             columnId={columnId}
           />
         )}
-
-        <ConfirmationModal
-          isConfirmationModalOpen={isConfirmationModalOpen}
-          setIsConfirmationModalOpen={setIsConfirmationModalOpen}
-          deleteItem={deleteSelectedColumn}
-        />
       </Box>
+
+      {confirmationModalElement}
     </Box>
   );
 };
