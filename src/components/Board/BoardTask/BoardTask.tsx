@@ -74,7 +74,8 @@ const BoardTask: FC<IBoardTaskProps> = ({
     e.stopPropagation();
     if (
       (e.target as HTMLDivElement).className.includes(styles.boardTask) &&
-      taskDragState.state === true
+      taskDragState.state === true &&
+      taskDragState.taskId !== id
     ) {
       (e.target as HTMLDivElement).classList.add(styles.onDragOver);
     }
@@ -144,6 +145,7 @@ const BoardTask: FC<IBoardTaskProps> = ({
         padding: '0',
         borderRadius: 1,
         order,
+        opacity: taskDragState?.taskId === id ? 0.5 : 1,
       }}
       draggable={true}
       onDragOver={(e) => {

@@ -1,5 +1,5 @@
 .boardTask {
-  transition: .2s ease-in-out;
+  transition: transform .2s ease-in-out, margin .2s ease-in-out, box-shadow .2s ease-in-out;
 }
 
 .boardTask input {
@@ -7,7 +7,7 @@
 }
 
 .boardTask > div {
-  transition: .2s ease-in-out;
+  transition: transform .2s ease-in-out, margin .2s ease-in-out, box-shadow .2s ease-in-out;
 }
 
 .onDragging * {

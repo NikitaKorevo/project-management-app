@@ -4,6 +4,7 @@ interface IColumnDragState {
   state: boolean;
   columnId?: string;
   title?: string;
+  order?: number;
 }
 
 interface ITaskDragState {

@@ -1,5 +1,5 @@
 .boardColumn {
-  transition: .2s ease-in-out;
+  transition: transform .2s ease-in-out, margin .2s ease-in-out, box-shadow .2s ease-in-out, flex-basis .2s ease-in-out;
 }
 
 .boardColumn input {
@@ -7,7 +7,7 @@
 }
 
 .boardColumn > div {
-  transition: .2s ease-in-out;
+  transition: transform .2s ease-in-out, margin .2s ease-in-out, box-shadow .2s ease-in-out, flex-basis .2s ease-in-out;
   overflow-y: auto;
 }
 
@@ -21,6 +21,14 @@
 
 .onDragOver > div {
   box-shadow: 0 1em 1em gray;
-  margin-left: 7em;
+}
+
+.onDragOverLess > div {
   transform: perspective(1000px) rotateY(-5deg);
+  margin-left: 7em;
+}
+
+.onDragOverMore > div {
+  transform: perspective(1000px) rotateY(5deg);
+  margin-right: 7em;
 }

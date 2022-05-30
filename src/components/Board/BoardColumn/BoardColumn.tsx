@@ -83,15 +83,23 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
     e.stopPropagation();
     if (
       (e.target as HTMLDivElement).className.includes(styles.boardColumn) &&
-      columnDragState.state
+      columnDragState.state &&
+      columnDragState.columnId !== columnId
     ) {
       (e.target as HTMLDivElement).classList.add(styles.onDragOver);
+      (e.target as HTMLDivElement).classList.add(
+        columnDragState?.order && columnDragState?.order > order
+          ? styles.onDragOverLess
+          : styles.onDragOverMore
+      );
     }
   };
 
   const dragLeaveHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.stopPropagation();
     (e.target as HTMLDivElement).classList.remove(styles.onDragOver);
+    (e.target as HTMLDivElement).classList.remove(styles.onDragOverLess);
+    (e.target as HTMLDivElement).classList.remove(styles.onDragOverMore);
   };
 
   const dragStartHandler = (
@@ -106,6 +114,7 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
           state: true,
           columnId: boardColumn,
           title: title,
+          order,
         })
       );
     }
@@ -114,6 +123,8 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
   const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.stopPropagation();
     (e.target as HTMLDivElement).classList.remove(styles.onDragOver);
+    (e.target as HTMLDivElement).classList.remove(styles.onDragOverLess);
+    (e.target as HTMLDivElement).classList.remove(styles.onDragOverMore);
     dispatch(setColumnDragState({ state: false }));
   };
 
@@ -125,6 +136,8 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
     e.preventDefault();
     e.stopPropagation();
     (e.target as HTMLDivElement).classList.remove(styles.onDragOver);
+    (e.target as HTMLDivElement).classList.remove(styles.onDragOverLess);
+    (e.target as HTMLDivElement).classList.remove(styles.onDragOverMore);
     if (taskDragState.state) {
       updateTaskPosition({
         boardId,
@@ -154,6 +167,7 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
         flexDirection: 'column',
         flexBasis: '280px',
         order,
+        opacity: columnDragState?.columnId === columnId ? 0.5 : 1,
       }}
       draggable={!taskDragState.state}
       onDragOver={(e) => dragOverHandler(e)}
