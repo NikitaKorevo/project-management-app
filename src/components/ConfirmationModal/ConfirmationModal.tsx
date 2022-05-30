@@ -1,16 +1,26 @@
-import React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { FC } from 'react';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
+import Modal from '../Modal/Modal';
 
 interface IConfirmationModalProps {
+  title: string;
   isConfirmationModalOpen: boolean;
   setIsConfirmationModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  deleteItem: () => void;
+  setIsAgree: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ConfirmationModal: React.FC<IConfirmationModalProps> = ({
+const ConfirmationModal: FC<IConfirmationModalProps> = ({
+  title,
   isConfirmationModalOpen,
   setIsConfirmationModalOpen,
-  deleteItem,
+  setIsAgree,
 }) => {
   const handleCloseModal = () => {
     setIsConfirmationModalOpen(false);
@@ -21,23 +31,30 @@ const ConfirmationModal: React.FC<IConfirmationModalProps> = ({
   };
 
   const handleClickAgreeButton = () => {
-    deleteItem();
+    setIsAgree(true);
     setIsConfirmationModalOpen(false);
   };
 
   return (
-    <Dialog
-      open={isConfirmationModalOpen}
-      onClose={handleCloseModal}
-      aria-labelledby="alert-dialog-title"
-    >
-      <DialogTitle id="alert-dialog-title">Delete this information?</DialogTitle>
-      <DialogContent></DialogContent>
-      <DialogActions>
-        <Button onClick={handleClickDisagreeButton}>Disagree</Button>
-        <Button onClick={handleClickAgreeButton}>Agree</Button>
-      </DialogActions>
-    </Dialog>
+    <Modal>
+      <Dialog
+        open={isConfirmationModalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Delete the {title}?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            This {title} will be permanently deleted.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClickDisagreeButton}>Disagree</Button>
+          <Button onClick={handleClickAgreeButton}>Agree</Button>
+        </DialogActions>
+      </Dialog>
+    </Modal>
   );
 };
 

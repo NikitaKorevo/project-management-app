@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Divider,
@@ -14,17 +14,24 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { boardAPI } from '../../services/boardAPI';
 import { IBoard } from '../../types/IBoard';
 import { useNavigate } from 'react-router-dom';
-import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import useConfirmationModal from '../../hooks/useConfirmationModal';
 import Spinner from '../Spinner/Spinner';
 
 const BoardList: React.FC = () => {
   const { data, isLoading, isFetching, isError } = boardAPI.useGetAllBoardsQuery();
   const [deleteBoard, {}] = boardAPI.useDeleteBoardMutation();
+  const { confirmationModalElement, isAgree, openConfirmationModal } =
+    useConfirmationModal('board');
 
   const navigate = useNavigate();
 
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [idSelectedBoard, setIdSelectedBoard] = useState('');
+
+  useEffect(() => {
+    if (isAgree) {
+      deleteBoard(idSelectedBoard);
+    }
+  }, [isAgree, deleteBoard, idSelectedBoard]);
 
   const navigateToBoard = (boardId: string): void => {
     navigate(`board/${boardId}`);
@@ -32,11 +39,7 @@ const BoardList: React.FC = () => {
 
   const handleClickDeleteIcon = (boardId: string): void => {
     setIdSelectedBoard(boardId);
-    setIsConfirmationModalOpen(true);
-  };
-
-  const deleteSelectedBoard = (): void => {
-    deleteBoard(idSelectedBoard);
+    openConfirmationModal();
   };
 
   const allBoardsElement = data?.map((board: IBoard, index) => {
@@ -65,11 +68,6 @@ const BoardList: React.FC = () => {
   return (
     <Box>
       {isError && <Typography>An error has occurred!</Typography>}
-      <ConfirmationModal
-        isConfirmationModalOpen={isConfirmationModalOpen}
-        setIsConfirmationModalOpen={setIsConfirmationModalOpen}
-        deleteItem={deleteSelectedBoard}
-      />
 
       {allBoardsElement?.length !== 0 && (
         <List
@@ -85,6 +83,8 @@ const BoardList: React.FC = () => {
           {isFetching && <LinearProgress />}
         </List>
       )}
+
+      {confirmationModalElement}
     </Box>
   );
 };
