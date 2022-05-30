@@ -39,6 +39,11 @@ const Header: React.FC = () => {
     };
   }, []);
 
+  const onSignOutHandler = () => {
+    localStorage.clear();
+    console.log('zxc');
+  };
+
   return (
     <AppBar
       position="static"
@@ -137,10 +142,18 @@ const Header: React.FC = () => {
               className={styles.authorisationButtonGroup}
               sx={{ display: { xs: 'none', sm: 'flex' } }}
             >
-              <Button component={Link} to={APP_ROUTES.SIGN_IN} variant="outlined" color="inherit">
+              <Button component={Link} to={APP_ROUTES.MAIN} variant="outlined" color="inherit">
                 Go to Main Page
               </Button>
-              <Button component={Link} to={APP_ROUTES.SIGN_IN} variant="outlined" color="inherit">
+              <Button
+                component={Link}
+                to={APP_ROUTES.SIGN_IN}
+                variant="outlined"
+                color="inherit"
+                onClick={() => {
+                  onSignOutHandler();
+                }}
+              >
                 Sign Out
               </Button>
             </Box>
