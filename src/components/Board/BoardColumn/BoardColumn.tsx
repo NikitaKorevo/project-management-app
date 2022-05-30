@@ -153,10 +153,7 @@ const BoardColumn: FC<IBoardColumnProps> = ({ boardId, columnId, title, order })
         display: 'flex',
         flexDirection: 'column',
         flexBasis: '280px',
-        flexShrink: 0,
         order,
-        borderRadius: 2,
-        margin: '0',
       }}
       draggable={!taskDragState.state}
       onDragOver={(e) => dragOverHandler(e)}

@@ -8,6 +8,7 @@
 
 .boardColumn > div {
   transition: .2s ease-in-out;
+  overflow-y: auto;
 }
 
 .onDragging * {
