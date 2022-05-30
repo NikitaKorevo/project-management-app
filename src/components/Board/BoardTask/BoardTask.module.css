@@ -1,0 +1,21 @@
+.boardTask {
+  transition: .2s ease-in-out;
+}
+
+.boardTask input {
+  pointer-events: none;
+}
+
+.boardTask > div {
+  transition: .2s ease-in-out;
+}
+
+.onDragging * {
+  pointer-events: none;
+}
+
+.onDragOver > div {
+  box-shadow: 0 1em 1em gray;
+  margin-top: 5em;
+  transform: perspective(1000px) rotateX(15deg);
+}

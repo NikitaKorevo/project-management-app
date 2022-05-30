@@ -4,6 +4,7 @@ import { columnAPI } from '../services/columnAPI';
 import { taskAPI } from '../services/taskAPI';
 import basisSlice from './reducers/basisSlice';
 import userSlice from './reducers/userSlice';
+import draggingSlice from './reducers/draggingSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     [taskAPI.reducerPath]: taskAPI.reducer,
     basis: basisSlice,
     user: userSlice,
+    dragging: draggingSlice,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(

@@ -29,6 +29,11 @@ interface IUpdateTaskQueryArgument extends IUpdateTaskDto {
   taskId: string;
 }
 
+interface IUpdateTaskPositionQueryArgument extends IUpdateTaskDto {
+  taskId: string;
+  newColumnId: string;
+}
+
 export const taskAPI = createApi({
   reducerPath: 'taskAPI',
 
@@ -79,6 +84,15 @@ export const taskAPI = createApi({
         url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
         method: 'PUT',
         body: { boardId, columnId, userId, title, order, description },
+      }),
+      invalidatesTags: ['Task'],
+    }),
+
+    updateTaskPosition: builder.mutation<ITask, IUpdateTaskPositionQueryArgument>({
+      query: ({ boardId, columnId, taskId, userId, title, description, order, newColumnId }) => ({
+        url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+        method: 'PUT',
+        body: { boardId, columnId: newColumnId, userId, title, order, description },
       }),
       invalidatesTags: ['Task'],
     }),

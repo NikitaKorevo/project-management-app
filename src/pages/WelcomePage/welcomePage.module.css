@@ -20,21 +20,21 @@
 }
 
 .commonInfoHead > div {
-    text-align: center !important;
+    text-align: center;
 }
 
 .commonInfoHead > div > div {
-    text-align: center !important;
-    font-weight: 500 !important;
+    text-align: center;
+    font-weight: 500;
 }
 
 .commonInfoDescription {
-    margin-top: 2em !important;
-    width: 50% !important;
-    color: rgba(0, 0, 0, 0.5) !important;
-    font-size: 1.3em !important;
-    text-align: center !important;
-    font-weight: 500 !important;
+    margin-top: 2em;
+    width: 50%;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 1.3em;
+    text-align: center;
+    font-weight: 500;
 }
 
 .teamInfo {
@@ -49,9 +49,9 @@
 }
 
 .teamInfoHead {
-    color: rgba(0, 0, 0, 0.5) !important;
-    margin-bottom: 1em !important;
-    font-size: 1.3em !important;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 1em;
+    font-size: 1.3em;
 }
 
 .teamInfoContent {
@@ -66,14 +66,14 @@
 }
 
 .teamInfoContent > div {
-    font-size: 1.5em;
-    text-align: center;
-    margin: .5em;
-    border-radius: 4em;
+    /*font-size: 1.5em;*/
+    /*text-align: center;*/
+    /*margin: .5em;*/
+    /*border-radius: 4em;*/
 }
 
 .teamInfoContent > div > div {
-    padding: 0.8em !important;
+    padding: 0.8em;
 }
 
 .teamInfoContent > div p {
@@ -84,5 +84,17 @@
 
 .taskInfo {
     color: rgba(0, 0, 0, 0.5);
-    font-size: 1.5em !important;
+    font-size: 1.5em;
+}
+
+.avatar_1 {
+    background-color: #bdbdbd !important;
+}
+
+.avatar_2 {
+    background-color: #ff5722 !important;
+}
+
+.avatar_3 {
+    background-color: #673ab7 !important;
 }
