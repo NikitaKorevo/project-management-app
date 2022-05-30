@@ -6,8 +6,6 @@ import { Button, Typography, Input } from '@mui/material';
 import { useAppDispatch } from '../../hooks/redux';
 import { setIsAuth, setToken, setUserId } from '../../store/reducers/basisSlice';
 import { BASE_URL_API } from '../../constants/appConstants';
-import { columnAPI } from '../../services/columnAPI';
-import { authenticationAPI } from '../../services/authenticationAPI';
 
 export interface FormSignInInputs {
   login: string;
