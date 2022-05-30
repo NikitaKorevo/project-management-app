@@ -2,11 +2,14 @@ import React from 'react';
 import styles from './signInPage.module.css';
 import { FormikErrors, useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Button, Typography, Input } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { Button, Input, Typography } from '@mui/material';
+import { useAppDispatch } from '../../hooks/redux';
 import { setIsAuth, setToken, setUserId } from '../../store/reducers/basisSlice';
+import { BASE_URL_API } from '../../constants/appConstants';
+import { columnAPI } from '../../services/columnAPI';
+import { authenticationAPI } from '../../services/authenticationAPI';
 
-interface FormInputs {
+export interface FormSignInInputs {
   login: string;
   password: string;
 }
@@ -16,8 +19,8 @@ const SignInPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const validate = async (values: FormInputs) => {
-    const errors: FormikErrors<FormInputs> = {};
+  const validate = async (values: FormSignInInputs) => {
+    const errors: FormikErrors<FormSignInInputs> = {};
 
     if (!values.login) {
       errors.login = 'Required';
@@ -31,40 +34,43 @@ const SignInPage: React.FC = () => {
       errors.password = 'Invalid password';
     }
 
-    const getJWT = async (values: FormInputs) => {
-      let response;
-      try {
-        response = await fetch('https://aqueous-springs-38949.herokuapp.com/signin', {
-          body: JSON.stringify(values),
-          headers: {
-            accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-        });
-      } catch (err) {
-        console.log(err);
-        errors.password = 'Incorrect login or password';
-        response = null;
-      }
-      const finalResponse = await response?.json();
-      return finalResponse?.token;
+    const makeAuthorisation = async (login: string, password: string) => {
+      const getJWT = async (login: string, password: string) => {
+        let response;
+        try {
+          response = await fetch(BASE_URL_API + '/signin', {
+            body: JSON.stringify({ login, password }),
+            headers: {
+              accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            method: 'POST',
+          });
+        } catch (err) {
+          console.log(err);
+          errors.password = 'Incorrect login or password';
+          response = null;
+        }
+        const finalResponse = await response?.json();
+        return finalResponse?.token;
+      };
+      const getDataFromJWT = (token: string) => JSON.parse(atob(token.split('.')[1]));
+
+      const token = await getJWT(login, password);
+      const dataFromJWT = getDataFromJWT(token);
+
+      dispatch(setToken(token));
+      dispatch(setUserId(dataFromJWT.userId));
+      dispatch(setIsAuth(true));
+
+      const authData = {
+        token: token,
+        userId: dataFromJWT.userId,
+        isAuth: true,
+      };
+      localStorage.setItem('authData', JSON.stringify(authData));
     };
-    const getDataFromJWT = (token: string) => JSON.parse(atob(token.split('.')[1]));
-
-    const token = await getJWT(values);
-    const dataFromJWT = getDataFromJWT(token);
-
-    dispatch(setToken(token));
-    dispatch(setUserId(dataFromJWT.userId));
-    dispatch(setIsAuth(true));
-
-    const authData = {
-      token: token,
-      userId: dataFromJWT.userId,
-      isAuth: true,
-    };
-    localStorage.setItem('authData', JSON.stringify(authData));
+    await makeAuthorisation(values.login, values.password);
 
     return errors;
   };
@@ -86,7 +92,7 @@ const SignInPage: React.FC = () => {
   return (
     <div className={styles.signInPage}>
       <Typography variant="h5" component="h1" mt={2} mb={2}>
-        Sign Up:
+        Sign In:
       </Typography>
       <form className={styles.signInForm} onSubmit={formik.handleSubmit}>
         <label htmlFor="login">
