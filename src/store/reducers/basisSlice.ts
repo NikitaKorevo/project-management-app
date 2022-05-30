@@ -4,13 +4,16 @@ interface IBasisState {
   language: string;
   token: string;
   userId: string;
+  isAuth: boolean;
 }
+
+const authData = JSON.parse(localStorage.getItem('authData') ?? '{}');
 
 const initialState: IBasisState = {
   language: 'en',
-  token:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkNzQ5NjliNy1iNzlkLTQ3M2YtOTVmMi03OTM0MjFiNGUwYzUiLCJsb2dpbiI6Im5pa2l0YSIsImlhdCI6MTY1MzI0MzQ3Mn0.0SWjMcnA_9ub0J8LVrlMQVuaeVIuGUUST9KdEnRKelI',
-  userId: 'd74969b7-b79d-473f-95f2-793421b4e0c5',
+  token: authData?.token ?? '',
+  userId: authData?.userId ?? '',
+  isAuth: authData?.isAuth ?? false,
 };
 
 const basisSlice = createSlice({
@@ -26,8 +29,11 @@ const basisSlice = createSlice({
     setUserId: (state, action: PayloadAction<string>) => {
       state.userId = action.payload;
     },
+    setIsAuth: (state, action: PayloadAction<boolean>) => {
+      state.isAuth = action.payload;
+    },
   },
 });
 
-export const { setLanguage, setToken, setUserId } = basisSlice.actions;
+export const { setLanguage, setToken, setUserId, setIsAuth } = basisSlice.actions;
 export default basisSlice.reducer;

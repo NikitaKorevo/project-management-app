@@ -4,7 +4,7 @@ import { FormikErrors, useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Button, Typography, Input } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { setToken, setUserId } from '../../store/reducers/basisSlice';
+import { setIsAuth, setToken, setUserId } from '../../store/reducers/basisSlice';
 
 interface FormInputs {
   login: string;
@@ -57,6 +57,14 @@ const SignInPage: React.FC = () => {
 
     dispatch(setToken(token));
     dispatch(setUserId(dataFromJWT.userId));
+    dispatch(setIsAuth(true));
+
+    const authData = {
+      token: token,
+      userId: dataFromJWT.userId,
+      isAuth: true,
+    };
+    localStorage.setItem('authData', JSON.stringify(authData));
 
     return errors;
   };
