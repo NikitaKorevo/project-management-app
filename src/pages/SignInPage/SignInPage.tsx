@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './signInPage.module.css';
 import { FormikErrors, useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input, Typography } from '@mui/material';
+import { Button, Typography, Input } from '@mui/material';
 import { useAppDispatch } from '../../hooks/redux';
 import { setIsAuth, setToken, setUserId } from '../../store/reducers/basisSlice';
 import { BASE_URL_API } from '../../constants/appConstants';
