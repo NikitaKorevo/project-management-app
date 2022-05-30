@@ -20,8 +20,14 @@ const basisSlice = createSlice({
     setLanguage: (state, action: PayloadAction<string>) => {
       state.language = action.payload;
     },
+    setToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+    },
+    setUserId: (state, action: PayloadAction<string>) => {
+      state.userId = action.payload;
+    },
   },
 });
 
-export const { setLanguage } = basisSlice.actions;
+export const { setLanguage, setToken, setUserId } = basisSlice.actions;
 export default basisSlice.reducer;

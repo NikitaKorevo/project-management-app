@@ -43,6 +43,8 @@ const SignUpPage: React.FC = () => {
       password: '',
     },
     validate,
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: (values) => {
       try {
         fetch('https://aqueous-springs-38949.herokuapp.com//signup', {
