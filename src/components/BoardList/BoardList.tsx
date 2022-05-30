@@ -11,21 +11,29 @@ import {
   Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { responseError } from '../../types/interfaces';
 import { boardAPI } from '../../services/boardAPI';
 import { IBoard } from '../../types/IBoard';
 import { useNavigate } from 'react-router-dom';
 import useConfirmationModal from '../../hooks/useConfirmationModal';
 import Spinner from '../Spinner/Spinner';
+import useErrorHandler from '../../hooks/useErrorHandler';
 
 const BoardList: React.FC = () => {
-  const { data, isLoading, isFetching, isError } = boardAPI.useGetAllBoardsQuery();
+  const { data, isLoading, isFetching, isError, error } = boardAPI.useGetAllBoardsQuery();
   const [deleteBoard, {}] = boardAPI.useDeleteBoardMutation();
   const { confirmationModalElement, isAgree, openConfirmationModal } =
     useConfirmationModal('board');
-
+  const { errorAlertsElement, submitError } = useErrorHandler();
   const navigate = useNavigate();
 
   const [idSelectedBoard, setIdSelectedBoard] = useState('');
+
+  useEffect(() => {
+    if (error) {
+      submitError(error as responseError);
+    }
+  }, [error, submitError]);
 
   useEffect(() => {
     if (isAgree) {
@@ -84,6 +92,7 @@ const BoardList: React.FC = () => {
         </List>
       )}
 
+      {errorAlertsElement}
       {confirmationModalElement}
     </Box>
   );
