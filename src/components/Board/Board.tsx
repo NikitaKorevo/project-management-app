@@ -1,15 +1,24 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
+import { responseError } from '../../types/interfaces';
 import { columnAPI } from '../../services/columnAPI';
 import BoardColumn from './BoardColumn/BoardColumn';
 import Spinner from '../Spinner/Spinner';
 import BoardColumnCreationForm from './BoardColumnCreationForm/BoardColumnCreationForm';
+import useErrorHandler from '../../hooks/useErrorHandler';
 
 const Board: FC = () => {
   const { boardId = '' } = useParams();
-  const { data: allColumns, isLoading, isError } = columnAPI.useGetAllColumnsQuery(boardId);
+  const { data: allColumns, isLoading, isError, error } = columnAPI.useGetAllColumnsQuery(boardId);
+  const { errorAlertsElement, submitError } = useErrorHandler();
   const [isBoardCreationFormOpen, setIsBoardCreationFormOpen] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      submitError(error as responseError);
+    }
+  }, [error, submitError]);
 
   const handleClickButton = () => {
     setIsBoardCreationFormOpen(true);
@@ -24,7 +33,12 @@ const Board: FC = () => {
   });
 
   if (isError) {
-    return <Typography>An error has occurred!</Typography>;
+    return (
+      <>
+        <Typography>An error has occurred!</Typography>
+        {errorAlertsElement}
+      </>
+    );
   }
 
   if (isLoading) {
