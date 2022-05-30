@@ -43,7 +43,6 @@ const SignInPage: React.FC = () => {
           method: 'POST',
         });
       } catch (err) {
-        console.log(err);
         errors.password = 'Incorrect login or password';
         response = null;
       }
