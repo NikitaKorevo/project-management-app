@@ -41,7 +41,6 @@ const Header: React.FC = () => {
 
   const onSignOutHandler = () => {
     localStorage.clear();
-    console.log('zxc');
   };
 
   return (
